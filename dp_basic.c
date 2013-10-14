@@ -32,38 +32,38 @@ void load_items(const char *file, unsigned *items_count, unsigned *capacity)
 
 unsigned solve(unsigned *items_count, unsigned *capacity)
 {
-  g_table = (unsigned**)malloc((*items_count + 1) * sizeof(unsigned));
+  g_table = (unsigned**)malloc((*items_count + 1) * sizeof(unsigned *));
   int i;
   fori(i,0,(*items_count)+1)
   {
     g_table[i] = (unsigned*)malloc((*capacity + 1) * sizeof(unsigned));
   }
-  
+
   fori(i,0,(*capacity)+1)
   {
-    g_table[0][i] = 0;  	
+    g_table[0][i] = 0;
   }
 
   int j;
   fori(i,1,(*items_count)+1)
   {
-    
-  	fori(j,0,(*capacity)+1)
+
+    fori(j,0,(*capacity)+1)
     {
       if (j >= g_weight[i-1])
       {
         g_table[i][j] = max(g_table[i-1][j-g_weight[i-1]] + g_value[i-1], g_table[i-1][j]);
-      } 	
+      }
       else
       {
-        g_table[i][j] = g_table[i-1][j];  
+        g_table[i][j] = g_table[i-1][j];
       }
     }
-    
+
   }
-  
+
   unsigned value = g_table[*items_count][*capacity];
-  
+
   fori(i,0,*items_count)
   {
     free(g_table[i]);
@@ -78,7 +78,7 @@ void knapsack(const char *file)
   unsigned capacity, items_count;
 
   load_items(file, &items_count, &capacity);
-  
+
   g_solution = (unsigned*)malloc(items_count * sizeof(unsigned));
   memset(g_solution, 0, items_count * sizeof(unsigned));
 
